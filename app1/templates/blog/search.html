@@ -1,0 +1,34 @@
+{% extends 'blog/base.html' %}
+{% block body %}
+
+    {% if posts|length < 1 %}
+
+    <p> your search query <b>{{query}} </b>didn't Match any blog : </p>
+    <ul>
+        <li><h4>Please refine Your query</h4></li>
+        <li>Try Different keywords</li>
+        <li>try Fewer Words</li>
+    </ul>
+    {% else %}
+
+    <h2>you are searching for <b>{{query}} </b> </h2>
+    <i>Total search results {{length}}</i>
+
+    {% for post in posts %}
+   
+    <article class="media content-section">
+        <img class="rounded-circle article-img" style="height: 50px; width: 50px;" src="{{ post.author.profile.image.url }}">
+        <div class="media-body ml-4">
+        <div class="article-metadata">
+            <a class="mr-2" href="#">Posted by {{ post.author }}</a>
+            <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+        </div>
+        <h4><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title|truncatechars:50 }}</a></h4>
+        <p class="article-content">{{ post.content|truncatechars:300 }}</p>
+        </div>
+    </article>
+
+{% endfor %}
+{% endif %}
+
+{% endblock body %}

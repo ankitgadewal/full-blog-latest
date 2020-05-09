@@ -1,0 +1,10 @@
+{% extends 'blog/base.html' %}
+{% block body %}
+
+{% for comment in comments %}
+{{ comment.comment}} {{comment.timestamp}} {{comment.post}} 
+<a class="mr-2" href="#">Posted by {{ comment.user }}</a><br>
+
+{% endfor %}
+
+{% endblock body %}
