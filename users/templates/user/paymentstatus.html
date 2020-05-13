@@ -1,0 +1,15 @@
+{% extends "blog/base.html" %}
+{% block body %}
+
+
+<!-- {'CURRENCY': 'INR', 'GATEWAYNAME': 'WALLET', 'RESPMSG': 'Txn Success', 'BANKNAME': 'WALLET', 'PAYMENTMODE': 'PPI', 'MID': 'wgyjVw30068262008394', 'RESPCODE': '01', 'TXNID': '20200512111212800110168145401528269', 'TXNAMOUNT': '5250.00', 'ORDERID': '177397', 'STATUS': 'TXN_SUCCESS', 'BANKTXNID': '62434205', 'TXNDATE': '2020-05-12 20:21:14.0'}  -->
+
+{{response}}
+    <h3>Payment status regarding your your order id {{response.ORDER_ID}}</h3>
+    {% if response.RESPCODE == '01' %}
+        Order Success
+    {% else %}
+        Order Failed
+    {% endif %}
+    
+{% endblock body %}
