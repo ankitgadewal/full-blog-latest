@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect, render
-from .models import Post
+from .models import Post, Category
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
+
 # Create your views here.
 # def index(request):
 #     posts = Post.objects.all()
@@ -16,7 +17,7 @@ class PostListView(ListView):
     context_object_name = 'posts'
     template_name = 'blog/index.html'
     ordering = ['-date_posted']
-    paginate_by = 5
+    paginate_by = 16
 
 class UserPostListView(ListView):
     model = Post
@@ -37,7 +38,7 @@ class PostDetailView(DetailView):
 class PostCreateView(CreateView):
     model = Post
     template_name = 'blog/new-post.html'
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'category']
     # success_url = '/' instead of this we created a function in models which redirect a user on the post that he created
 
     def form_valid(self, form):
@@ -46,7 +47,7 @@ class PostCreateView(CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    template_name = 'blog/new-post.html'
+    template_name = 'blog/post-update.html'
     fields = ['title', 'content']
     # success_url = '/' instead of this we created a function in models which redirect a user on the post that he created
 
@@ -71,6 +72,19 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView, Succes
         if self.request.user == post.author:
             return True
         return False
+
+class PostCategory(ListView):
+    model = Post
+    template_name = 'blog/post_category.html'
+
+    def get_queryset(self):
+        self.category = get_object_or_404(Category, pk=self.kwargs['pk'])
+        return Post.objects.filter(category=self.category)
+
+    def get_context_data(self, **kwargs):
+        context = super(PostCategory, self).get_context_data(**kwargs)
+        context['category'] = self.category
+        return context
 
 def about(request):
     return render(request, 'blog/about.html')

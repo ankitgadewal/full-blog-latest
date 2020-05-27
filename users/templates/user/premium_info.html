@@ -6,14 +6,22 @@
         <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
         <div class="media-body">
           <h2 class="account-heading">Welcome {{ user.username }}</h2>
-          <p class="text-secondary">You can become our prime member... purchase our Premium</p>
+          <p class="text-secondary">You can become our prime member to get extra benefits... purchase our Premium</p>
         </div>
       </div>
       <form method="POST", action="{% url 'premium' %}">
         {% csrf_token %}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Buy Premium...</legend>
-            <button type="submit" class="btn btn-primary">Purchase</button>
+            <legend class="border-bottom mb-4">This are some Benefits of Purchasing a premium</legend>
+            <ul class="list-group">
+              <li class="list-group-item">To get Courses on Django for free</li>
+              <li class="list-group-item">To read Special Articles</li>
+              <li class="list-group-item">To concern directly with the owner of website</li>
+              <li class="list-group-item">To Support our team</li>
+              <li class="list-group-item">To get Extra Premium Features of Blog...</li>
+            </ul>
+            <button type="submit" class="btn btn-primary mt-3">Purchase Now</button>
+            <a href="{% url 'index'%}" class="btn btn-outline-secondary mt-3">Cancel</a>
         </fieldset>
     </form>
     </div>

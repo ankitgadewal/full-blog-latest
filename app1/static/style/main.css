@@ -1,0 +1,53 @@
+body {
+    background-color: #c6d1e0;
+  }
+
+  .content-section {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+
+  .account-img {
+    width: 100px;
+    height: 100px;
+    margin-right: 50px;
+  }
+
+  .navbar {
+    background-color: #7952b3;
+  }
+
+  .nav-text {
+    color: white !important;
+    font-weight: bold;
+  }
+
+  .nav-text:hover {
+    transition-duration: 0.2s;
+    color: #ffc107 !important;
+    font-weight: bolder;
+  }
+
+  .index-article {
+    background-color: #efeaf3;
+  }
+
+  .index-article:hover {
+    transition-duration: 0.2s;
+    background-color: #dcd4e2;
+  }
+
+  .side:hover {
+    transition-duration: 0.2s;
+    background-color: #dcd4e2;
+  }
+
+  .info {
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--light-dark);
+  }

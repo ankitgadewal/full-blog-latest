@@ -26,3 +26,12 @@ class Premium(models.Model):
 
     def __str__(self):
         return f'{self.user.username} is a premium user'
+
+class ContactMe(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    mobile = models.IntegerField()
+    description = models.TextField()
+
+    def __str__(self):
+        return f"{self.name}'s message"

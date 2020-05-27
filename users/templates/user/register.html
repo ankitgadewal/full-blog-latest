@@ -1,7 +1,7 @@
 {% extends 'blog/base.html' %}
 {% block body %}
 {% load crispy_forms_tags %}
-<div class="content-section mt-4">
+<div class="content-section">
     <form method="POST">
         {% csrf_token %}
         <fieldset class="form-group">
@@ -9,10 +9,14 @@
             {{ form|crispy }}
         </fieldset>
         <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Sign Up</button>
+            <button class="btn btn-secondary" style="background-color: #7952b3;" type="submit">Register</button><br>
+            <div class="pt-2">
+                <a class="btn btn-primary large pl-4 pr-4" href="{% url 'social:begin' 'facebook' %}">Register with Facebook</a>
+                <a class="btn btn-primary large pl-4 pr-4" href="{% url 'social:begin' 'twitter' %}">Register with Twitter</a>
+            </div>
         </div>
     </form>
-    <div class="border-top pt-3">
+    <div class="border-top pt-2">
         <small class="text-muted">
             Already Have An Account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
         </small>

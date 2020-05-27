@@ -2,12 +2,13 @@ from django.shortcuts import render, redirect, HttpResponse
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Premium
+from .models import Premium, ContactMe
 from django.views.decorators.csrf import csrf_exempt
 from users.paytm import Checksum
 import random
+from django.views.generic import CreateView
 
-MERCHANT_KEY = 'your merchant key'
+MERCHANT_KEY = ''
 # Create your views here.
 def register(request):
     if request.method == 'POST':
@@ -47,9 +48,9 @@ def premium(request):
     print(request.user)
     # return render(request, 'user/premium.html')
     params_dict = {
-            'MID':'wgyjVw30068262008394',
+            'MID':'',
             'ORDER_ID':str(order_id),
-            'TXN_AMOUNT':'930',
+            'TXN_AMOUNT':'5250',
             'CUST_ID':request.user.email,
             'INDUSTRY_TYPE_ID':'Retail',
             'WEBSITE':'WEBSTAGING',
@@ -80,11 +81,9 @@ def handle_request(request):
             print(response_dict['TXNID'])
             print(response_dict['BANKTXNID'])
             print(response_dict['TXNDATE'])
-            print(response_dict['BANKNAME'])
             print(response_dict['PAYMENTMODE'])
             print(response_dict['STATUS'])
             print(response_dict['GATEWAYNAME'])
-            print(request.user)
             
 
             # newpremium = Premium(order_id=order_id, charge=int(charge))
@@ -92,3 +91,10 @@ def handle_request(request):
         else:
             print('order was not successful because of '+ response_dict['RESPMSG'])
     return render(request, 'user/paymentstatus.html', {'response': response_dict})
+
+
+class ContactMe(CreateView):
+    model = ContactMe
+    template_name = 'user/contactme.html'
+    fields =['name', 'email', 'mobile', 'description']
+    success_url = '/'

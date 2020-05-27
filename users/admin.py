@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Premium
+from .models import Profile, Premium, ContactMe
 
 # Register your models here
-admin.site.register((Profile,Premium))
+admin.site.register((Profile,Premium,ContactMe))

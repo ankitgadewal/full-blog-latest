@@ -1,105 +1,132 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v7.0"></script>
-    <title>Hello, world!</title>
-    <style>
-      .content-section {
-        background: #ffffff;
-        padding: 10px 20px;
-        border: 1px solid #dddddd;
-        border-radius: 3px;
-        margin-bottom: 20px;
-        } 
-      .account-img{
-        width:100px;
-        height:100px;
-        margin-right: 50px;
-      }
-    </style>
-  </head>
-  <body>
-    <header class="site-header">
-        <nav class="navbar navbar-expand-md navbar-light bg-danger">
-          <div class="container-fluid">
-            <a class="navbar-brand mr-4" href="{% url 'index' %}">Django Blog</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarToggle">
-              <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link" href="{% url 'index' %}">Home</a>
-                <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
-              </div>
-              <!-- Navbar Right Side -->
-              <div class="navbar-nav">
-                {% if user.is_authenticated %}
-                <a class="nav-item nav-link" href="/post/new-post">New Post</a>
-                
-                <div class="dropdown ml-4">
-                  <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    welcome {{user.username}}
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="nav-item nav-link" href="/profile">My Profile</a>
-                    <a class="nav-item nav-link" href="/premium_info">Buy Premium</a>
-                    <a class="nav-item nav-link" href="/logout">LogOut</a>
-                  </div>
-                </div>
-                {% else %}
-                <a class="nav-item nav-link" href="/login">Login</a>
-                <a class="nav-item nav-link" href="/register">Register</a>
-                {% endif %}
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'style/main.css' %}">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script async defer crossorigin="anonymous"
+    src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v7.0"></script>
+  <title>Secrets4You</title>
+  <style>
+    
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand mr-4 nav-text" href="{% url 'index' %}">Secrets4You</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+          aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggle">
+          <div class="navbar-nav mr-auto">
+            <a class="nav-item nav-link nav-text ml-2" href="{% url 'index' %}">Home</a>
+            <a class="nav-item nav-link nav-text ml-2" href="{% url 'about' %}">About Us</a>
+            <a class="nav-item nav-link nav-text ml-2" href="{% url 'contact-me' %}">Contact Me</a>
+          </div>
+          <!-- Navbar Right Side -->
+          <div class="navbar-nav">
+            {% if user.is_authenticated %}
+            <a class="btn btn-primary" href="/post/new-post">Write a Post</a>
+
+            <div class="dropdown ml-4">
+              <button class="btn btn-outline-warning dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                welcome {{user.username}}
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="/profile">My Profile</a>
+                <a class="dropdown-item" href="/premium_info">Buy Premium</a>
+                <a class="dropdown-item" href="/logout">LogOut</a>
               </div>
             </div>
+            {% else %}
+            <a class="nav-item nav-link nav-text ml-2" href="/login">Login</a>
+            <a class="nav-item nav-link nav-text ml-2" href="/register">Register</a>
+            {% endif %}
           </div>
-        </nav>
-      </header>
+        </div>
+      </div>
+    </nav>
+  </header>
 
-      {% if messages %}
-      {% for message in messages %}
-      <div class="alert alert-{{ message.tags }}">
-        {{ message }}
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }}">
+    {{ message }}
+  </div>
+  {% endfor %}
+  {% endif %}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 mt-4">
+        {% block body %}
+        {% endblock body %}
       </div>
-      {% endfor %}
-      {% endif %}
-      
-      <div class="container">
-      <div class="row">
-        <div class="col-md-8 mt-4">
-          {% block body %}
-          {% endblock body %}
+      <div class="col-md-4 mt-4">
+        <div class="content-section index-article">
+          <h3>Quick Links</h3>
+          <p class='text-muted'>You can put any information here you'd like.
+          <form class="form-inline my-2 my-lg-0" method="GET" action="/search">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2" type="search" placeholder="Search a post" name="query"
+              aria-label="Search" required>
+            <button class="btn btn-secondary" style="background-color: #ad70e9;" type="submit">Search</button>
+          </form>
+          <ul class="list-group mt-3">
+            <li class="list-group-item" style="background-color: #ad70e9;">Categories</li>
+            <li class="list-group-item list-group-item-light side"><a href="/post/cat/1">Python</a></li>
+            <li class="list-group-item list-group-item-light side"><a href="/post/cat/2">Technology</a></li>
+            <li class="list-group-item list-group-item-light side"><a href="/post/cat/3">Gaming</a></li>
+            <li class="list-group-item list-group-item-light side"><a href="/post/cat/4">Social</a></li>
+            <li class="list-group-item list-group-item-light side"><a href="/post/cat/5">Networking</a></li>
+            <li class="list-group-item list-group-item-light side"><a href="/post/cat/6">Graphics</a></li>
+            <li class="list-group-item list-group-item-light side"><a href="/post/cat/7">Django</a></li>
+            <li class="list-group-item list-group-item-light side"><a href="/post/cat/9">Programming</a></li>
+            <li class="list-group-item list-group-item-light side"><a href="/post/cat/8">Other</a></li>
+          </ul>
+          </p>
         </div>
-        <div class="col-md-4  mt-4">
-          <div class="content-section">
-            <h3>Our Sidebar</h3>
-            <p class='text-muted'>You can put any information here you'd like.
-              <form class="form-inline my-2 my-lg-0" method="GET" action="/search">
-                {% csrf_token %}
-                <input class="form-control mr-sm-2" type="search" placeholder="Search a post" name="query" aria-label="Search" required>
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-              </form>
-              <ul class="list-group mt-3">
-                <li class="list-group-item list-group-item-light">Latest Posts</li>
-                <li class="list-group-item list-group-item-light">Announcements</li>
-                <li class="list-group-item list-group-item-light">Calendars</li>
-                <li class="list-group-item list-group-item-light">etc</li>
-              </ul>
-            </p>
-          </div>
-        </div>
       </div>
+    </div>
+  </div>
+
+  <footer>
+    <nav class="navbar navbar-expand-lg text-light bg-dark">
+      <h6>© 2020-2021 secret4you.ml · Privacy · Terms</h6>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+               
+        </ul>
+        <a href="#" class="text-light">Back To Top</a>
       </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  </body>
+    </nav>
+  </footer>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>
