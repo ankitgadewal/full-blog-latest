@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from django.shortcuts import redirect, render
-from .models import Post, Category
+from django.shortcuts import redirect, render, HttpResponse
+from .models import Post, Category, Comment
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -34,7 +34,13 @@ class PostDetailView(DetailView):
     model = Post
     template_name = 'blog/post-detail.html'
 
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post = self.get_object()
+        print(post)
+        context['comments'] = Comment.objects.filter(post_id=post).order_by('-date_posted')
+        return context
+    
 class PostCreateView(CreateView):
     model = Post
     template_name = 'blog/new-post.html'
@@ -97,3 +103,11 @@ def search(request):
         posts = Post.objects.filter(title__icontains=query).union(Post.objects.filter(content__icontains=query))
         length = len(posts)
     return render(request, 'blog/search.html', {'posts': posts, 'query': query, 'length':length})
+
+def PostComment(request):
+    if request.method == 'POST':
+        content = request.POST['content']
+        post_id = request.POST['post_id']
+        post = Post.objects.get(id=post_id)
+        Comment(content=content, user_id=request.user, post_id=post).save()
+        return redirect(f'/post/{post_id}/')

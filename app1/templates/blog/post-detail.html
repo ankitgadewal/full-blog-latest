@@ -3,29 +3,57 @@
 <article class="media content-section index-article">
     <div class="media-body ml-4 container">
         <div class="row">
-        <div class="col-md-10">
-            <a class="mr-2 text-dark" href="{% url 'user-posts' post.author.username %}">Posted by {{ object.author }}</a>
-            <small class="text-muted">{{ object.date_posted }}</small>
-            {% if object.author == user %}
-            <div>
-                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
-                <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+            <div class="col-md-10">
+                <a class="mr-2 text-dark" href="{% url 'user-posts' post.author.username %}">Posted by
+                    {{ object.author }}</a>
+                <small class="text-muted">{{ object.date_posted }}</small>
+                {% if object.author == user %}
+                <div>
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
+                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+                </div>
+                {% endif %}
             </div>
-            {% endif %}
-        </div>
-        <div class="col-md-2">
-            <a href="{% url 'user-posts' post.author.username %}"><img class="rounded-circle article-img"
-                style="height: 50px; width: 50px;" src="{{ object.author.profile.image.url }}"></a>
-            
-        </div>
+            <div class="col-md-2">
+                <a href="{% url 'user-posts' post.author.username %}"><img class="rounded-circle article-img"
+                        style="height: 50px; width: 50px;" src="{{ object.author.profile.image.url }}"></a>
+
+            </div>
         </div>
         <div class="container">
-        <b><h1 class="article-title">{{ object.title }}</h1></b>
-        <p class="article-content">{{ object.content|safe}}</p>
-    </div>
+            <b>
+                <h1 class="article-title">{{ object.title }}</h1>
+            </b>
+            <p class="article-content">{{ object.content|safe}}</p>
+        </div>
     </div>
 </article>
-<div class="fb-like" data-href="http://127.0.0.1:8000/post/{{object.id}}" data-width="" data-layout="standard"
-    data-action="like" data-size="small" data-share="true"></div>
-<div class="fb-comments" data-href="http://127.0.0.1:8000/{{object.id}}/" data-numposts="5" data-width=""></div>
+
+<form action="{% url 'postcomment' %}" method="POST">
+    {% csrf_token %}
+    <div>
+        <label>Comment</label>
+        <input type="text" class="form-control" name="content" placeholder="Post a Public Comment">
+        <input type="hidden" name="post_id" value="{{object.id}}">
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Post Comment</button>
+</form>
+
+<h3 class='mt-5 ml-3'> Recent Comments ({{comments.count}})</h3>
+{% for comment in comments %}
+<div class="container pt-4 pb-4">
+    <div class="row">
+        <div class="col-md-2">
+            <img src='{{comment.user_id.profile.image.url}}' class="img-thumbnail img-fluid" width="70px"
+                height="70px"><br>
+        </div>
+
+        <div class="col-md-10">
+            <p><b>{{comment.user_id}}</b> <span class="text-muted ml-2">{{comment.date_posted|timesince}} ago</span></p>
+            {{comment.content}}
+        </div>
+
+    </div>
+</div>
+{% endfor %}
 {% endblock body %}

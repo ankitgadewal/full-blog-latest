@@ -11,4 +11,7 @@ urlpatterns = [
     path('search', views.search, name='search'),
     path('about/', views.about, name='about'),
     path('post/cat/<int:pk>/', views.PostCategory.as_view(), name='post_by_category'),
+    
+    #Comment Portion
+    path('postcomment/', views.PostComment, name='postcomment'),
 ]
